@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0" />
+    <title>Challenge 10 | User Interaction Flow</title>
+    <style>
+      body {
+        font-family: Arial,sans-serif;
+        max-width: 600px;
+        margin: 60px auto;
+        padding: 0 16px;
+        line-height: 1.5;
+      }
+      button {
+        padding: 10px 18px;
+        font-size: 16px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Challenge 10 for the Melsoft Module 2 and 3 checkpoint by Sijabulile Ncube -->
+    <h1>Challenge 10: User Interaction Flow</h1>
+    <p>The flow starts automatically when the page loads.Click the button to run it again.</p>
+    <button id="startButton">Run the flow again</button>
+
+    <script>
+      /*
+       * Challenge 10: alert,prompt and confirm.
+       * MDN alert:   developer.mozilla.org/en-US/docs/Web/API/Window/alert
+       * MDN prompt:  developer.mozilla.org/en-US/docs/Web/API/Window/prompt
+       * MDN confirm: developer.mozilla.org/en-US/docs/Web/API/Window/confirm
+       *
+       * Same rule as my main file: no if/else (that's Module 4),so the "stop if invalid" step uses a ternary
+       * that either carries on with the flow or shows an error and ends there.
+       */
+
+      // The whole flow is in one function so the button can run it again without reloading the page.
+      function runUserFlow() {
+        // 1.Greet the user.
+        window.alert("Welcome! Let us get to know you.");
+
+        // 2.Ask for their name.
+        // prompt gives back null if they click Cancel,or a string (maybe empty) if they click OK.
+        const rawName = window.prompt("What is your name?");
+        // ?? turns null into "" so .trim() can't crash,.trim() strips spaces,and || swaps an empty result for "Guest".
+        const userName = (rawName ?? "").trim() || "Guest";
+
+        // 3.Ask for their age and convert it to a number.
+        const rawAge = window.prompt(`Nice to meet you ${userName}.How old are you?`);
+        // I trim first,then check it isn't empty.Number("") and Number(null) both give 0 instead of NaN,
+        // so without this check a blank answer would sneak through as age 0.
+        const ageText = (rawAge ?? "").trim();
+        const userAge = ageText === "" ? NaN : Number(ageText);
+        // A real number (not NaN) between 1 and 120.
+        const ageIsValid = !Number.isNaN(userAge) && userAge >= 1 && userAge <= 120;
+
+        // If the age is invalid,show an alert and stop.If it's valid,carry on to the rest of the flow.
+        ageIsValid
+          ? finishUserFlow(userName, userAge)
+          : window.alert("Sorry,that is not a valid age.Please enter a number between 1 and 120.");
+      }
+
+      // Steps 4 to 6 only run once I know the age is valid.
+      function finishUserFlow(userName, userAge) {
+        // 4.Tier with a ternary: under 18 Youth,18 to 59 Adult,60 and up Senior.
+        const tier = userAge < 18 ? "Youth" : userAge < 60 ? "Adult" : "Senior";
+
+        // 5.confirm gives back true for OK and false for Cancel,so I can store it straight away as a boolean.
+        const wantsNewsletter = window.confirm("Do you want to subscribe to our newsletter?");
+
+        // 6.Summary.\n puts each detail on its own line inside the alert box.
+        window.alert(
+          `Here is your summary:\n\n` +
+            `Name: ${userName}\n` +
+            `Age: ${userAge}\n` +
+            `Tier: ${tier}\n` +
+            `Newsletter: ${wantsNewsletter ? "Subscribed" : "Not subscribed"}`
+        );
+      }
+
+      // Run once when the page loads,and again every time the button is clicked.
+      document.getElementById("startButton").addEventListener("click", runUserFlow);
+      runUserFlow();
+
+      /*
+       * ---------- Interview answers ----------
+       *
+       * 1.What does "blocking" mean,and why is it a problem?
+       *    While an alert,confirm or prompt box is open,JavaScript on the page completely stops and waits for the user.
+       *    Nothing else runs: animations freeze,timers pause and the page can't respond to anything else.
+       *    Modern apps are constantly doing things in the background (loading data,updating the screen,live chat),
+       *    so freezing the whole page for one question gives a poor experience.The boxes also can't be styled,
+       *    look different in every browser,and many browsers let users block them.
+       *
+       * 2.What do real web apps use instead?
+       *    Custom modal dialogs built in HTML and CSS,like the native <dialog> element or components from a library
+       *    such as Bootstrap or a React UI kit.Normal forms with input fields and inline validation messages
+       *    replace prompt,and small "toast" notifications replace alert.None of these block the page.
+       *
+       * 3.What does prompt() return?
+       *    Click Cancel: it returns null.
+       *    Leave the field blank and click OK: it returns an empty string "".
+       *    That's why I use ?? to handle the null and .trim() || "Guest" to handle the empty string.
+       */
+    </script>
+  </body>
+</html>
