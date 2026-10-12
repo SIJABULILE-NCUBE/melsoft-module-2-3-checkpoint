@@ -1,16 +1,37 @@
+
 # Melsoft Module 2 & 3 Combined Checkpoint
 
-**Name:** Sijabulile Ncube
+**Name:** Sijabulile Ncube  
 **Email:** s.mabhena@gmail.com
 
-**Summary:** Twelve interview style JavaScript challenges covering variables,data types,type conversion,every operator category from Module 3,and user interaction with alert,confirm and prompt,built around real scenarios like payroll,banking,permissions and form validation.
+## Project Summary
 
-## Files
+This project contains 12 JavaScript interview-style challenges covering variables,data types,type conversion,operators,and browser interaction.The exercises include practical examples such as payroll,banking calculations,permissions,and form validation.
 
-- `sijabulile-ncube-module2-3.js`: Challenges 1 to 9,11 and 12
-- `challenge10.html`: Challenge 10 (user interaction flow)
+## Project Files
 
-## How to run
+- `sijabulile-ncube-module2-3.js` - Challenges 1 to 9,11 and 12.
+- `challenge10.html` - Challenge 10 using alert(),prompt() and confirm().
 
-- Main file: `node sijabulile-ncube-module2-3.js`
-- Challenge 10: open `challenge10.html` in a browser
+## How to Run
+
+**JavaScript challenges:**
+
+```bash
+node sijabulile-ncube-module2-3.js
+```
+
+**Challenge 10:**
+
+Open `challenge10.html` in your browser.
+
+## Technologies Used
+
+- JavaScript
+- HTML
+- Node.js
+- VS Code
+
+## Learning Reference
+
+Cisco NetAcad JavaScript Essentials 1,Modules 2 and 3.
